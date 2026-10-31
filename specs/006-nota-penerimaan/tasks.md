@@ -42,8 +42,9 @@
 
 **Purpose**: Check migration and requirements coverage.
 
-- [x] T013 Review all seven functional requirements against implementation and tests; no gaps found.
+- [x] T013 Review all eight functional requirements against implementation and tests; no gaps found.
 - [x] T014 Run the full test suite and record its result below.
+- [x] T015 Add an authenticated populated example-PDF download route, printable receipt view, form button, and feature coverage in `app/Http/Controllers/PergerakanBarangController.php`, `resources/views/barang/nota_penerimaan_contoh_pdf.blade.php`, `resources/views/barang/create_masuk.blade.php`, `routes/web.php`, and `tests/Feature/NotaPenerimaanBarangTest.php`.
 
 ## Dependencies & Execution Order
 
@@ -80,3 +81,4 @@
 - Focused receipt tests: 9 passed (40 assertions) using Laragon PHP 8.3 with its SQLite modules enabled.
 - Full suite: 32 passed and 2 failed. The failures are `tests/Feature/Auth/AuthenticationTest.php` (login leaves the user unauthenticated) and `tests/Feature/ExampleTest.php` (expects `/` to return 200, while the existing route redirects to login). Both failures reproduce when run independently.
 - PHP syntax checks passed for all changed PHP files; `git diff --check` passed.
+- Example receipt PDF test: confirms the form button is present and the download is a non-empty valid PDF (`%PDF-` signature).

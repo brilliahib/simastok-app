@@ -6,7 +6,7 @@
 
 ## Summary
 
-Extend the existing multi-item incoming-stock form to require a recipient and PDF receipt. Persist one private receipt record per intake batch, link its movements to it, and provide authenticated access to the PDF from the incoming-goods report. Reuse Laravel validation, transactions, storage, and existing report views.
+Extend the existing multi-item incoming-stock form to require a recipient and PDF receipt. Persist one private receipt record per intake batch, link its movements to it, provide authenticated access from the report, and offer a populated PDF example from the form. Reuse Laravel validation, transactions, storage, and installed Dompdf.
 
 ## Technical Context
 
@@ -48,6 +48,7 @@ app/Models/NotaPenerimaanBarang.php
 database/migrations/<timestamp>_create_nota_penerimaan_barangs_table.php
 database/migrations/<timestamp>_add_nota_penerimaan_barang_id_to_pergerakan_barangs_table.php
 resources/views/barang/create_masuk.blade.php
+resources/views/barang/nota_penerimaan_contoh_pdf.blade.php
 resources/views/laporan/barang_masuk.blade.php
 routes/web.php
 tests/Feature/NotaPenerimaanBarangTest.php
@@ -63,6 +64,7 @@ tests/Feature/NotaPenerimaanBarangTest.php
 - Add an authenticated route that streams/downloads the linked file only after confirming it exists.
 - Eager-load receipt data in the incoming report and show one link per linked movement; do not render a link for legacy rows.
 - Add feature tests for successful multi-item linkage, invalid uploads/recipient with unchanged stock, authenticated file access, missing files, and legacy rows.
+- Generate a filled, clearly labeled sample PDF using the existing receipt fields and add its authenticated download link beside the form's PDF input.
 
 ## Constitution Re-check
 

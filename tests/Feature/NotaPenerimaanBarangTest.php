@@ -127,6 +127,22 @@ it('serves an uploaded receipt to authenticated users and shows its report link'
         ->assertSee(route('barang.masuk.nota', $nota));
 });
 
+it('downloads a populated example incoming receipt PDF', function () {
+    $this->get(route('barang.masuk'))
+        ->assertOk()
+        ->assertSee('Unduh Contoh Nota PDF')
+        ->assertSee(route('barang.masuk.nota.contoh'));
+
+    $response = $this->get(route('barang.masuk.nota.contoh'));
+
+    $response->assertOk()
+        ->assertDownload('contoh-nota-penerimaan-barang.pdf');
+
+    $pdf = $response->getContent();
+    expect($pdf)->toStartWith('%PDF-')
+        ->and(strlen($pdf))->toBeGreaterThan(1000);
+});
+
 it('returns not found when the stored receipt file is missing', function () {
     $nota = NotaPenerimaanBarang::create([
         'penerima' => 'Siti Aminah',

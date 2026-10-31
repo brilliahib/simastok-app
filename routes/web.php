@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/barang/masuk', [PergerakanBarangController::class, 'createMasuk'])->name('barang.masuk');
     Route::post('/barang/masuk', [PergerakanBarangController::class, 'storeMasuk'])->name('barang.storeMasuk');
+    Route::get('/barang/masuk/nota/contoh.pdf', [PergerakanBarangController::class, 'downloadContohNota'])->name('barang.masuk.nota.contoh');
     Route::get('/barang/masuk/nota/{notaPenerimaanBarang}', [PergerakanBarangController::class, 'downloadNota'])->name('barang.masuk.nota');
     Route::get('/barang/keluar', [PergerakanBarangController::class, 'createKeluar'])->name('barang.keluar');
     Route::post('/barang/keluar', [PergerakanBarangController::class, 'storeKeluar'])->name('barang.storeKeluar');

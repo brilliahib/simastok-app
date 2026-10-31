@@ -38,6 +38,16 @@ As a staff member reviewing incoming stock, I want to open the uploaded receipt 
 1. **Given** a movement linked to an uploaded receipt, **When** an authenticated user follows its receipt link, **Then** the stored PDF is served inline or downloaded.
 2. **Given** a receipt file path that cannot be found, **When** its link is opened, **Then** the user receives a not-found response rather than a filesystem error.
 
+### User Story 3 - Download a populated example receipt (Priority: P2)
+
+As a staff member recording incoming stock, I want to download a filled example receipt so I can follow the expected receipt fields and format.
+
+**Independent Test**: Open the incoming goods form, download the example, and confirm it is a valid PDF containing item rows, quantities, unit prices, date, recipient, and notes.
+
+**Acceptance Scenarios**:
+
+1. **Given** an authenticated user on the incoming goods form, **When** they choose the example download, **Then** a populated PDF is downloaded and clearly marked as an example.
+
 ### Edge Cases
 
 - Reject non-PDF files and PDFs larger than 10 MB without changing stock.
@@ -56,6 +66,7 @@ As a staff member reviewing incoming stock, I want to open the uploaded receipt 
 - **FR-005**: The incoming goods report MUST show an accessible receipt link for movements with an associated document.
 - **FR-006**: Receipt access MUST require authentication and MUST NOT expose the stored file through a public URL.
 - **FR-007**: Existing incoming movements without receipt documents MUST remain available in reports without a receipt link.
+- **FR-008**: The incoming goods form MUST provide an authenticated download for a populated sample receipt whose fields match the incoming movement data and clearly identify it as an example.
 
 ### Key Entities
 
@@ -70,6 +81,7 @@ As a staff member reviewing incoming stock, I want to open the uploaded receipt 
 - **SC-002**: Every movement from a submitted multi-item intake displays a working link to the same receipt PDF.
 - **SC-003**: Invalid file or missing recipient submissions leave stock quantities and movement history unchanged in all tested cases.
 - **SC-004**: Existing movements remain visible in incoming goods reports whether or not they have a receipt.
+- **SC-005**: Staff can download a valid PDF example that includes populated receipt and item data.
 
 ## Assumptions
 

@@ -126,7 +126,12 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="nota" class="form-label">Nota Penerimaan (PDF, maksimal 10 MB)</label>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label for="nota" class="form-label mb-0">Nota Penerimaan (PDF, maksimal 10 MB)</label>
+                                <a href="{{ route('barang.masuk.nota.contoh') }}" class="btn btn-outline-secondary btn-sm">
+                                    Unduh Contoh Nota PDF
+                                </a>
+                            </div>
                             <input type="file" class="form-control @error('nota') is-invalid @enderror" id="nota" name="nota" accept="application/pdf,.pdf" required>
                             @error('nota')
                                 <div class="invalid-feedback">{{ $message }}</div>

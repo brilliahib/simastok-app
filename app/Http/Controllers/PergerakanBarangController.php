@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\NotaPenerimaanBarang;
 use App\Models\PergerakanBarang;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -94,6 +95,21 @@ class PergerakanBarangController extends Controller
         }
 
         return Storage::disk('local')->download($notaPenerimaanBarang->file_path, 'nota-penerimaan.pdf');
+    }
+
+    public function downloadContohNota()
+    {
+        $items = [
+            ['nama_barang' => 'Beras Premium', 'jumlah' => 25, 'harga_satuan' => 14000],
+            ['nama_barang' => 'Minyak Goreng 2 Liter', 'jumlah' => 12, 'harga_satuan' => 35000],
+        ];
+
+        return Pdf::loadView('barang.nota_penerimaan_contoh_pdf', [
+            'tanggal' => now(),
+            'penerima' => 'Siti Aminah',
+            'keterangan' => 'Simulasi penerimaan barang untuk contoh format.',
+            'items' => $items,
+        ])->download('contoh-nota-penerimaan-barang.pdf');
     }
 
     public function createKeluar()
