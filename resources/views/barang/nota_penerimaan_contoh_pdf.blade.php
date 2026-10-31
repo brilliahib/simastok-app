@@ -2,11 +2,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Contoh Nota Penerimaan Barang</title>
+    <title>Pratinjau Nota Penerimaan Barang</title>
     <style>
         body { font-family: sans-serif; font-size: 12px; color: #222; }
         h1 { margin-bottom: 4px; text-align: center; font-size: 20px; }
-        .sample { margin: 0 0 24px; text-align: center; color: #a00; font-weight: bold; }
+        .sample { margin: 0 0 24px; text-align: center; color: #666; font-weight: bold; }
         .details { width: 100%; margin-bottom: 20px; }
         .details td { padding: 4px 0; vertical-align: top; }
         .details td:first-child { width: 125px; }
@@ -23,10 +23,10 @@
 </head>
 <body>
     <h1>Nota Penerimaan Barang</h1>
-    <p class="sample">CONTOH - BUKAN BUKTI TRANSAKSI</p>
+    <p class="sample">PRATINJAU FORMAT NOTA PENERIMAAN</p>
 
     <table class="details">
-        <tr><td>No. Nota</td><td>: CONTOH/NPB/001</td></tr>
+        <tr><td>No. Nota</td><td>: PRATINJAU/NPB/001</td></tr>
         <tr><td>Tanggal Masuk</td><td>: {{ $tanggal->format('d/m/Y') }}</td></tr>
         <tr><td>Penerima</td><td>: {{ $penerima }}</td></tr>
         <tr><td>Keterangan</td><td>: {{ $keterangan }}</td></tr>
@@ -61,6 +61,6 @@
         <tr><td>{{ $penerima }}</td><td>(____________________)</td></tr>
     </table>
 
-    <p class="notice">Dokumen ini berisi data contoh untuk panduan pengisian nota penerimaan barang.</p>
+    <p class="notice">Pratinjau format dengan data ilustrasi; bukan bukti transaksi penerimaan barang.</p>
 </body>
 </html>

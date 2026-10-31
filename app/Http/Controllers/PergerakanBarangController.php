@@ -100,14 +100,24 @@ class PergerakanBarangController extends Controller
     public function downloadContohNota()
     {
         $items = [
-            ['nama_barang' => 'Beras Premium', 'jumlah' => 25, 'harga_satuan' => 14000],
-            ['nama_barang' => 'Minyak Goreng 2 Liter', 'jumlah' => 12, 'harga_satuan' => 35000],
+            ['nama_barang' => 'Oli Mesin 10W-40', 'jumlah' => 12, 'harga_satuan' => 65000],
+            ['nama_barang' => 'Busi Motor', 'jumlah' => 20, 'harga_satuan' => 18000],
+            ['nama_barang' => 'Kampas Rem Depan', 'jumlah' => 8, 'harga_satuan' => 45000],
+            ['nama_barang' => 'Kampas Rem Belakang', 'jumlah' => 8, 'harga_satuan' => 38000],
+            ['nama_barang' => 'Filter Udara', 'jumlah' => 10, 'harga_satuan' => 32000],
+            ['nama_barang' => 'Rantai dan Gear Set', 'jumlah' => 5, 'harga_satuan' => 185000],
+            ['nama_barang' => 'Aki Motor', 'jumlah' => 4, 'harga_satuan' => 285000],
+            ['nama_barang' => 'Lampu Depan LED', 'jumlah' => 6, 'harga_satuan' => 95000],
+            ['nama_barang' => 'Kabel Gas', 'jumlah' => 10, 'harga_satuan' => 25000],
+            ['nama_barang' => 'Bearing Roda', 'jumlah' => 12, 'harga_satuan' => 22000],
+            ['nama_barang' => 'Ban Dalam', 'jumlah' => 8, 'harga_satuan' => 55000],
+            ['nama_barang' => 'Kampas Kopling', 'jumlah' => 6, 'harga_satuan' => 78000],
         ];
 
         return Pdf::loadView('barang.nota_penerimaan_contoh_pdf', [
             'tanggal' => now(),
-            'penerima' => 'Siti Aminah',
-            'keterangan' => 'Simulasi penerimaan barang untuk contoh format.',
+            'penerima' => 'Raihan',
+            'keterangan' => 'Penerimaan suku cadang bengkel motor.',
             'items' => $items,
         ])->download('contoh-nota-penerimaan-barang.pdf');
     }
