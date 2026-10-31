@@ -19,10 +19,15 @@ public function up(): void
     });
 }
 // app/Models/PergerakanBarang.php
-protected $fillable = ['barang_id', 'jumlah', 'harga_satuan', 'tipe', 'keterangan', 'tanggal', 'penerima'];
+protected $fillable = ['barang_id', 'jumlah', 'harga_satuan', 'tipe', 'keterangan', 'tanggal', 'penerima', 'nota_penerimaan_barang_id'];
 
 public function barang()
 {
     return $this->belongsTo(Barang::class);
+}
+
+public function notaPenerimaanBarang()
+{
+    return $this->belongsTo(NotaPenerimaanBarang::class);
 }
 }

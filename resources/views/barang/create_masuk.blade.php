@@ -20,7 +20,7 @@
                     <h4 class="mb-0">Form Barang Masuk</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('barang.storeMasuk') }}" method="POST"
+                    <form action="{{ route('barang.storeMasuk') }}" method="POST" enctype="multipart/form-data"
                         x-data="{
                             rows: @js($oldItems).map((row, index) => ({
                                 key: index,
@@ -121,6 +121,14 @@
                             <label for="penerima" class="form-label">Penerima</label>
                             <input type="text" class="form-control @error('penerima') is-invalid @enderror" id="penerima" name="penerima" value="{{ old('penerima') }}" maxlength="255" required>
                             @error('penerima')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="nota" class="form-label">Nota Penerimaan (PDF, maksimal 10 MB)</label>
+                            <input type="file" class="form-control @error('nota') is-invalid @enderror" id="nota" name="nota" accept="application/pdf,.pdf" required>
+                            @error('nota')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

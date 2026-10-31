@@ -85,7 +85,7 @@ class LaporanController extends Controller
         $tanggalAwal = $validated['tanggal_awal'] ?? null;
         $tanggalAkhir = $validated['tanggal_akhir'] ?? null;
 
-        $pergerakan = PergerakanBarang::with('barang')
+        $pergerakan = PergerakanBarang::with(['barang', 'notaPenerimaanBarang'])
             ->where('tipe', 'masuk')
             ->when($tanggalAwal, fn ($query) => $query->whereDate('tanggal', '>=', $tanggalAwal))
             ->when($tanggalAkhir, fn ($query) => $query->whereDate('tanggal', '<=', $tanggalAkhir))

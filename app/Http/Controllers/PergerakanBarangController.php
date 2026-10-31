@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\NotaPenerimaanBarang;
 use App\Models\PergerakanBarang;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -25,6 +27,7 @@ class PergerakanBarangController extends Controller
             'items.*.harga_masuk' => 'required|integer|min:1|max:99999999',
             'tanggal' => 'required|date',
             'penerima' => 'required|string|max:255',
+            'nota' => 'required|file|mimes:pdf|max:10240',
             'keterangan' => 'nullable|string',
         ], [
             'items.required' => 'Tambahkan setidaknya satu barang.',
@@ -43,25 +46,54 @@ class PergerakanBarangController extends Controller
             'penerima.max' => 'Nama penerima maksimal 255 karakter.',
         ]);
 
-        DB::transaction(function () use ($validated) {
-            foreach ($validated['items'] as $item) {
-                $barang = Barang::whereKey($item['barang_id'])->lockForUpdate()->firstOrFail();
-                $barang->jumlah += $item['jumlah_masuk'];
-                $barang->save();
+        $filePath = $request->file('nota')->store('nota-penerimaan', 'local');
 
-                PergerakanBarang::create([
-                    'barang_id' => $item['barang_id'],
-                    'jumlah' => $item['jumlah_masuk'],
-                    'harga_satuan' => $item['harga_masuk'],
-                    'tipe' => 'masuk',
-                    'tanggal' => $validated['tanggal'],
+        if (! $filePath) {
+            throw ValidationException::withMessages([
+                'nota' => 'Gagal menyimpan file nota. Silakan coba lagi.',
+            ]);
+        }
+
+        try {
+            DB::transaction(function () use ($validated, $filePath) {
+                $nota = NotaPenerimaanBarang::create([
                     'penerima' => $validated['penerima'],
-                    'keterangan' => $validated['keterangan'] ?? null,
+                    'tanggal' => $validated['tanggal'],
+                    'file_path' => $filePath,
                 ]);
-            }
-        });
+
+                foreach ($validated['items'] as $item) {
+                    $barang = Barang::whereKey($item['barang_id'])->lockForUpdate()->firstOrFail();
+                    $barang->jumlah += $item['jumlah_masuk'];
+                    $barang->save();
+
+                    PergerakanBarang::create([
+                        'barang_id' => $item['barang_id'],
+                        'jumlah' => $item['jumlah_masuk'],
+                        'harga_satuan' => $item['harga_masuk'],
+                        'tipe' => 'masuk',
+                        'tanggal' => $validated['tanggal'],
+                        'penerima' => $validated['penerima'],
+                        'nota_penerimaan_barang_id' => $nota->id,
+                        'keterangan' => $validated['keterangan'] ?? null,
+                    ]);
+                }
+            });
+        } catch (\Throwable $exception) {
+            Storage::disk('local')->delete($filePath);
+            throw $exception;
+        }
 
         return redirect()->route('dashboard')->with('success', 'Berhasil mencatat barang masuk.');
+    }
+
+    public function downloadNota(NotaPenerimaanBarang $notaPenerimaanBarang)
+    {
+        if (! Storage::disk('local')->exists($notaPenerimaanBarang->file_path)) {
+            abort(404);
+        }
+
+        return Storage::disk('local')->download($notaPenerimaanBarang->file_path, 'nota-penerimaan.pdf');
     }
 
     public function createKeluar()
